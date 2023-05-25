@@ -5,31 +5,31 @@ import { auth } from "../config/firebase-config";
 import { Navigate, Link } from "react-router-dom";
 import React from "react";
 
-export const Nav = () => {
-  return <div>App</div>;
-};
-
 function Signup() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [matchPassword, setMatchPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
 
-  const handleSumbit = async (e) => {
+  const handleSumbit = (e) => {
     e.preventDefault();
-    try {
-      let success = await createUserWithEmailAndPassword(auth, user, password);
 
-      //check if signed in with user
-      // console.log(auth.currentUser.user);
-      console.log(success);
-      setUser("");
-      setPassword("");
-      setMatchPassword("");
-      setNavigate(true);
-    } catch (err) {
-      console.log(err);
-    }
+    createUserWithEmailAndPassword(auth, user, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        setNavigate(true);
+
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        // ..
+      });
   };
 
   if (navigate) {

@@ -1,11 +1,7 @@
 import "../App.css";
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  signInWithPopup,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, googleProvider } from "../config/firebase-config";
 // import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -19,35 +15,42 @@ export default function Login() {
   //checks to see if user exists in firebase
   //   const [user, loading] = useAuthState(auth);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const success = await signInWithEmailAndPassword(auth, email, password);
-
-      //   setEmail("");
-      //   setPassword("");
-      setNav(true);
-      console.log(success);
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      setStatus(true);
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        setNav(true);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        setStatus(true);
+      });
   };
 
-  const signWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      setNav(true);
-      console.log(result);
+  const signWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        setNav(true);
 
-      //check if signed in with Google Email
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-    }
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        // ..
+      });
   };
 
   if (nav) {
@@ -57,21 +60,6 @@ export default function Login() {
   if (status) {
     alert("Please check email or password!");
   }
-
-  const logout = async () => {
-    try {
-      let result = await signOut(auth);
-
-      setEmail("");
-      setPassword("");
-
-      console.log(result);
-      //   console.log(auth.currentUser.email);
-      //   console.log(auth.currentUser.user);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div>
@@ -99,7 +87,6 @@ export default function Login() {
             className="img"
           />
 
-          <button onClick={logout}>Log out</button>
           <Link to="/">
             <span>Not registed? Signup</span>
           </Link>
