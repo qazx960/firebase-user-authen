@@ -6,7 +6,7 @@ export default function ErrorPage() {
   return (
     <div>
       <h1>Page not found Error 404</h1>
-      <Link to="/">Home</Link>
+      <Link to="/">Homegit</Link>
     </div>
   );
 }
