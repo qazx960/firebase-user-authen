@@ -66,7 +66,7 @@ export default function Login() {
       <div className="container">
         <form autoComplete="off" onSubmit={handleLogin}>
           <h1>Login</h1>
-          <label htmlFor="email">Username</label>
+          <label htmlFor="email">Email</label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +79,11 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input type="submit" />
+          <input
+            type="submit"
+            className="submit"
+            disabled={!email || !password}
+          />
           <img
             src={image}
             onClick={signWithGoogle}
@@ -88,7 +92,7 @@ export default function Login() {
           />
 
           <Link to="/">
-            <span>Not registed? Signup</span>
+            <span>Don't have an account? Signup</span>
           </Link>
         </form>
       </div>

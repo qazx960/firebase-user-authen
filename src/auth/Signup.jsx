@@ -8,7 +8,7 @@ import React from "react";
 function Signup() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [matchPassword, setMatchPassword] = useState("");
+  // const [matchPassword, setMatchPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
 
   const handleSumbit = (e) => {
@@ -41,7 +41,7 @@ function Signup() {
       <form onSubmit={handleSumbit}>
         <h1>Sign up</h1>
 
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username">Email</label>
         <input
           id="username"
           value={user}
@@ -60,14 +60,14 @@ function Signup() {
           autoComplete="off"
           placeholder="6 characters +"
         />
-
+        {/* 
         <input
           value={matchPassword}
           type="password"
           onChange={(e) => setMatchPassword(e.target.value)}
-        />
+        /> */}
 
-        <input type="submit" />
+        <input type="submit" className="submit" disabled={!user || !password} />
         <Link to="/login">
           <span>Already a user? Login</span>
         </Link>
